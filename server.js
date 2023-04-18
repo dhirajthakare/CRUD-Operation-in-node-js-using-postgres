@@ -54,6 +54,15 @@ app.get("/getusersDetailds/:id", async (req, res) => {
   res.json(record.rows);
 });
 
+app.get("/searchuser/:search", async (req, res) => {
+  let connection = await postgresInit.connect();
+  let inserQuery =
+    "select * from public.users  where name like '%" + req.params.search + "%'";
+
+  const record = await connection.query(inserQuery);
+  res.json(record.rows);
+});
+
 app.get("/deleteuser/:id", async (req, res) => {
   let connection = await postgresInit.connect();
   let inserQuery = "delete from public.users where id =" + req.params.id;
